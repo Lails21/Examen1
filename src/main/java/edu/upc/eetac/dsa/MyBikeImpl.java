@@ -122,27 +122,34 @@ public class MyBikeImpl implements MyBike{
         }
         i--;
         if (enc) {
-            Bike bike = stations[i].getBikes().removeFirst();
-            log.info("Bikes in the station:" +stations[i].getBikes());
-        } else {
-            if (idUser.equals(users.get(idUser))) {
-                this.users.get(b);
+            Bike bici = stations[i].getBikes().removeFirst();
+            User usuario = users.get(idUser);
+            log.info("Bikes in the station:" + stations[i].getBikes());
+            if (usuario != null) {
+                log.info("First bike in the station:" + bici);
+                usuario.addBikes(bici);
+                return bici;
             } else {
                 log.error("User not found");
                 throw new UserNotFoundException();
             }
         }
-        return b;
+        else{
+            log.error("Station not found");
+            throw new StationNotFoundException();
+        }
 }
 
     public List<Bike> bikesByUser(String idUser) throws UserNotFoundException{
-        int i = 0;
-        boolean enc = false;
-        for (i=0; i<users.size(); i++){
-            if(idUser.equals(users.get(idUser))){
-                enc = true;
-                log.info("User found");
-            }
+        User usuario = users.get(idUser);
+        if (usuario != null){
+            LinkedList<Bike> bikes=usuario.getBikes();
+            log.info("List of bikes of" +idUser+":"+bikes);
+            return  bikes;
+        }
+        else{
+            log.error("User not found");
+            throw new UserNotFoundException();
         }
 
     }
@@ -166,6 +173,7 @@ public class MyBikeImpl implements MyBike{
                 log.info("Station found");
             }
         }
+        i--;
         if (!enc) {
             log.error("Station not found");
             throw new StationNotFoundException();
@@ -176,7 +184,9 @@ public class MyBikeImpl implements MyBike{
     }
 
     public void clear(){
-
+        nStations=0;
+        this.stations = new Station[10];
+        this.users = new HashMap<>();
     }
 
 }
