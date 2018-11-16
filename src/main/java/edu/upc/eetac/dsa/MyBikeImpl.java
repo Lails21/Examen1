@@ -37,20 +37,8 @@ public class MyBikeImpl implements MyBike{
         log.info("User added:" +users.get(idUser));
     }
 
-    public void addStation(String idStation, String description, int max, double lat, double lon){
-        if (nStations != S){
-            stations[nStations]= new Station(idStation, description, max, lat, lon);
-            log.info(nStations);
-            log.info("Station added:" +stations[nStations]);
-            nStations++;
-        }
-        else{
-            log.error("Maximum stations added (no more space available)");
-        }
-    }
-
     public void addBike(String idBike, String description, double km, String idStation) throws StationFullException, StationNotFoundException {
-        Bike b = new Bike(idBike, description, km);
+        Bike b = new Bike(idBike, description, km, idStation);
         log.info("Bike added:" + b);
         int i;
         boolean enc = false;
@@ -71,6 +59,18 @@ public class MyBikeImpl implements MyBike{
                 log.error("Station full (no more space available)");
                 throw new StationFullException();
             }
+        }
+    }
+
+    public void addStation(String idStation, String description, int max, double lat, double lon){
+        if (nStations != S){
+            stations[nStations]= new Station(idStation, description, max, lat, lon);
+            log.info(nStations);
+            log.info("Station added:" +stations[nStations]);
+            nStations++;
+        }
+        else{
+            log.error("Maximum stations added (no more space available)");
         }
     }
 
@@ -184,9 +184,10 @@ public class MyBikeImpl implements MyBike{
     }
 
     public void clear(){
+
+        this.users = new HashMap<>();
         nStations=0;
         this.stations = new Station[10];
-        this.users = new HashMap<>();
     }
 
 }

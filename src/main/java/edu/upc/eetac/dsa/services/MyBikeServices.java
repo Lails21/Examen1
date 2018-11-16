@@ -81,4 +81,90 @@ public class MyBikeServices {
         }
     }
 
+    @GET
+    @ApiOperation(value = "get a bike", notes = "X")
+    @ApiResponses(value = {
+            @ApiResponse(code = 201, message = "Successful", response = Bike.class, responseContainer="List"),
+            @ApiResponse(code = 404, message = "Station not found/User not found"),
+            @ApiResponse(code = 402, message = "StationNotFoundException")
+
+
+    })
+    @Path("/3{idStation}/{idUser}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response bikesByUser(@PathParam("idStation") String idStation, @PathParam("idUser") String idUser) {
+
+        try {
+            Bike bike = this.mb.getBike(idStation, idUser);
+            GenericEntity<Bike> entity = new GenericEntity<Bike>(bike) {
+            };
+            return Response.status(201).entity(entity).build();
+        } catch (StationNotFoundException e) {
+            e.printStackTrace();
+            return Response.status(404).build();
+        } catch (UserNotFoundException e) {
+            e.printStackTrace();
+            return Response.status(402).build();
+        }
+    }
+
+    @POST
+    @ApiOperation(value = "add user", notes = "X")
+    @ApiResponses(value = {
+            @ApiResponse(code = 201, message = "Successful")
+    })
+    @Path("/addUser")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response addUser(User u) {
+        String idUser = u.getIdUser();
+        String name = u.getName();
+        String surname = u.getSurname();
+        this.mb.addUser(idUser, name, surname);
+        return Response.status(201).build();
+    }
+
+    @POST
+    @ApiOperation(value = "add station", notes = "X")
+    @ApiResponses(value = {
+            @ApiResponse(code = 201, message = "Successful")
+    })
+    @Path("/addStation")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response addStation(Station s) {
+        String idStation = s.getIdStation();
+        String description = s.getDescription();
+        int max = s.getMax();
+        double lat = s.getLat();
+        double lon = s.getLon();
+        this.mb.addStation(idStation, description, max, lat, lon);
+        return Response.status(201).build();
+    }
+
+    @POST
+    @ApiOperation(value = "add bike", notes = "x")
+    @ApiResponses(value = {
+            @ApiResponse(code = 201, message = "Successful"),
+            @ApiResponse(code = 404, message = "StationFullException"),
+            @ApiResponse(code = 402, message = "StationNotFoundException")
+    })
+    @Path("/addBike")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response addBike(Bike bike) {
+        String idBike = bike.getIdBike();
+        String description = bike.getDescription();
+        double kms = bike.getKm();
+        String idStation = bike.getIdStation();
+
+        try {
+            this.mb.addBike(idBike, description, kms, idStation);
+            return Response.status(201).build();
+        } catch (StationFullException e) {
+            e.printStackTrace();
+            return Response.status(402).build();
+        } catch (StationNotFoundException e) {
+            e.printStackTrace();
+            return Response.status(404).build();
+        }
+    }
+
 }

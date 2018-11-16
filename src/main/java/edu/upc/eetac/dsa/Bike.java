@@ -6,6 +6,7 @@ public class Bike {
     String idBike;
     String description;
     double km;
+    String idStation;
 
     //Constructor vacío
     public Bike(){
@@ -13,10 +14,11 @@ public class Bike {
     }
 
     // Constructor creado por nosotros
-    public Bike (String idBike, String description, double km){
+    public Bike (String idBike, String description, double km, String idStation){
         this.idBike=idBike;
         this.description=description;
         this.km=km;
+        this.idStation=idStation;
     }
 
     // Sets & Gets
@@ -42,6 +44,14 @@ public class Bike {
 
     public void setKm(double km) {
         this.km = km;
+    }
+
+    public String getIdStation() {
+        return idStation;
+    }
+
+    public void setIdStation(String idStation) {
+        this.idStation = idStation;
     }
 
     @Override
