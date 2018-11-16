@@ -44,4 +44,13 @@ public class Bike {
         this.km = km;
     }
 
+    @Override
+    public String toString() {
+        return "Bike{" +
+                "idBike='" + idBike + '\'' +
+                ", description='" + description + '\'' +
+                ", km=" + km +
+                '}';
+    }
+
 }

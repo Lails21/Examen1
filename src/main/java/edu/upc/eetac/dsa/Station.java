@@ -1,5 +1,7 @@
 package edu.upc.eetac.dsa;
 
+import java.util.LinkedList;
+
 public class Station {
 
     // Atributos
@@ -8,10 +10,11 @@ public class Station {
     int max;
     double lat;
     double lon;
+    LinkedList<Bike> bikes;
 
     //Constructor vacío
     public Station(){
-
+        this.bikes=new LinkedList<>();
     }
 
     // Constructor creado por nosotros
@@ -21,6 +24,7 @@ public class Station {
         this.max=max;
         this.lat=lat;
         this.lon=lon;
+        this.bikes=new LinkedList<>();
     }
 
     // Sets & Gets
@@ -64,6 +68,19 @@ public class Station {
         this.lon = lon;
     }
 
+    public LinkedList<Bike> getBikes(){
+        return bikes;
+    }
+
+    public void setBikes(LinkedList<Bike> bikes){
+        this.bikes=bikes;
+    }
+
+    public void addBikes (Bike b){
+        this.getBikes().add(b);
+    }
+
+
     @Override
     public String toString() {
         return "Station{" +
@@ -72,6 +89,7 @@ public class Station {
                 ", max=" + max +
                 ", lat=" + lat +
                 ", lon=" + lon +
+                ", bikes=" + bikes +
                 '}';
     }
 

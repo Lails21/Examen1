@@ -8,9 +8,11 @@ public class User {
     String idUser;
     String name;
     String surname;
+    LinkedList<Bike> bikes;
 
     //Constructor vacío
     public User(){
+        this.bikes=new LinkedList<>();
 
     }
 
@@ -19,6 +21,7 @@ public class User {
         this.idUser=idUser;
         this.name=name;
         this.surname=surname;
+        this.bikes=new LinkedList<>();
     }
 
     // Sets & Gets
@@ -46,12 +49,25 @@ public class User {
         this.surname = surname;
     }
 
+    public LinkedList<Bike> getBikes(){
+        return bikes;
+    }
+
+    public void setBikes(LinkedList<Bike> bikes){
+        this.bikes=bikes;
+    }
+
+    public void addBikes (Bike b){
+        this.getBikes().add(b);
+    }
+
     @Override
     public String toString(){
         return "User[" +
                 "idUser='" + idUser + '\'' +
                 ", name='" + name + '\'' +
                 ", surname='" + surname + '\'' +
+                ", bikes='" + bikes + '\'' +
                 ']';
     }
 }
