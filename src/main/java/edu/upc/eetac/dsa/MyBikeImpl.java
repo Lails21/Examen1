@@ -3,6 +3,7 @@ package edu.upc.eetac.dsa;
 import java.util.*;
 
 import org.apache.log4j.Logger;
+import sun.awt.image.ImageWatched;
 
 public class MyBikeImpl implements MyBike{
 
@@ -71,28 +72,82 @@ public class MyBikeImpl implements MyBike{
     }
 
     public List<Bike> bikesByStationOrderByKms(String idStation) throws StationNotFoundException{
-        int i;
-        boolean enc;
+        LinkedList<Bike> ret = new LinkedList<>();
+        ret.addAll(stations.getBikes());
+        log.info("List before order:");
+        Collections.sort(ret, new Comparator<Bike>() {
+            public int compare(Bike p1, Bike p2) {
+                double res = p1.getKm() - (p2.getKm());
+                if(res < 0.0){
+                    return -1;
+                }
+                else if (res > 0.0){
+                    return 1;
+                }
+                else
+                {
+                    return 0;
+                }
+            }
+        });
+        log.info("List after order:" +ret);
+        return ret;
     }
 
-    public Bike getBike(String stationId, String userId) throws UserNotFoundException, StationNotFoundException{
-
-    }
+    public Bike getBike(String idStation, String idUser) throws UserNotFoundException, StationNotFoundException{
+        int i = 0;
+        Bike b = new Bike();
+        boolean enc = false;
+        for (i = 0; i < nStations && !enc; i++) {
+            if (idStation.equals(stations[i].getIdStation())) {
+                enc = true;
+                log.info("Station found");
+            }
+        }
+        if (!enc) {
+            log.error("Station not found");
+            throw new StationNotFoundException();
+        } else {
+            if (idUser.equals(users.get(idUser))) {
+                this.users.get(b);
+            } else {
+                log.error("User not found");
+                throw new UserNotFoundException();
+            }
+        }
+        return b;
+}
 
     public List<Bike> bikesByUser(String userId) throws UserNotFoundException{
 
     }
 
     public int numUsers(){
-
+        log.info("Tamaño lista de usuarios:" +this.users.size());
+        return this.users.size();
     }
 
     public int numStations(){
-
+        log.info("Número de estaciones:" +this.nStations);
+        return this.nStations;
     }
 
     public int numBikes(String idStation) throws StationNotFoundException{
-
+        int i = 0;
+        boolean enc = false;
+        for (i = 0; i < nStations && !enc; i++) {
+            if (idStation.equals(stations[i].getIdStation())) {
+                enc = true;
+                log.info("Station found");
+            }
+        }
+        if (!enc) {
+            log.error("Station not found");
+            throw new StationNotFoundException();
+        } else {
+            this.stations[i].getBikes().size();
+            }
+        return this.stations[i].getBikes().size();
     }
 
     public void clear(){

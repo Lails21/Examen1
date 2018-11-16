@@ -62,7 +62,7 @@ public interface MyBike {
      * @throws UserNotFoundException if the user doesn't exist
      * @throws StationNotFoundException if the station doesn't exist
      */
-    public Bike getBike(String stationId, String userId) throws UserNotFoundException, StationNotFoundException;
+    public Bike getBike(String idStation, String idUser) throws UserNotFoundException, StationNotFoundException;
 
     /**
      * get the bikes used by the user
